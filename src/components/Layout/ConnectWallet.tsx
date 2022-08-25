@@ -9,33 +9,29 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import styled from "styled-components";
 const providerOptions = {
   walletlink: {
-    package: CoinbaseWalletSDK, // Required
+    package: CoinbaseWalletSDK,
     options: {
-      appName: "Web 3 Modal Demo", // Required
-      infuraId: "c22c90a767684c5fbd7257da57802b35", // Required unless you provide a JSON RPC url; see `rpc` below
+      appName: "Web 3 Modal Demo",
+      infuraId: "c22c90a767684c5fbd7257da57802b35",
     },
   },
   walletconnect: {
-    package: WalletConnect, // required
+    package: WalletConnect,
     options: {
-      infuraId: "c22c90a767684c5fbd7257da57802b35", // required
+      infuraId: "c22c90a767684c5fbd7257da57802b35",
     },
   },
 };
 const web3Modal = new Web3Modal({
-  cacheProvider: true, // optional
-  providerOptions, // required
+  cacheProvider: true,
+  providerOptions,
 });
 
-// --------
 export default function ConnectWallet() {
-  //   const [web3Modal, setWeb3Modal] = useState<Core>();
-  //   const [provider, setProvider] = useState();
   const [account, setAccount] = useState<string>();
   const [network, setNetwork] = useState<ethers.providers.Network>();
   const [balance, setBalance] = useState<any>();
 
-  //   ----------
   const connectWallet = async () => {
     try {
       const provider = await web3Modal.connect();
@@ -43,7 +39,6 @@ export default function ConnectWallet() {
       const accounts = await library.listAccounts();
       const network = await library.getNetwork();
       setNetwork(network);
-      //   setProvider(provider);
       if (accounts) setAccount(accounts[0]);
     } catch (error) {
       console.log(`error`, error);
@@ -58,76 +53,11 @@ export default function ConnectWallet() {
 
   const disconnectWallet = async () => {
     await web3Modal?.clearCachedProvider();
-    // setProvider(undefined);
     setAccount(undefined);
     setBalance(undefined);
     setNetwork(undefined);
   };
 
-  //   useEffect(() => {
-  //     if (provider && provider?.on) {
-  //       const handleAccountsChanged = (accounts:any) => {
-  //         console.log("accountsChanged", accounts);
-  //         if (accounts) setAccount(accounts[0]);
-  //       };
-
-  //       const handleDisconnect = () => {
-  //         console.log("disconnect", error);
-  //         disconnect();
-  //       };
-
-  //       provider.on("accountsChanged", handleAccountsChanged);
-  //       provider.on("chainChanged", handleChainChanged);
-  //       provider.on("disconnect", handleDisconnect);
-
-  //       return () => {
-  //         if (provider.removeListener) {
-  //           provider.removeListener("accountsChanged", handleAccountsChanged);
-  //           provider.removeListener("chainChanged", handleChainChanged);
-  //           provider.removeListener("disconnect", handleDisconnect);
-  //         }
-  //       };
-  //     }
-  //   }, [provider]);
-
-  //   useEffect(() => {
-  //     const providerOptions = {
-  //       walletlink: {
-  //         package: CoinbaseWalletSDK, // Required
-  //         options: {
-  //           appName: "Web 3 Modal Demo", // Required
-  //           infuraId: "c22c90a767684c5fbd7257da57802b35", // Required unless you provide a JSON RPC url; see `rpc` below
-  //         },
-  //       },
-  //       walletconnect: {
-  //         package: WalletConnectProvider, // required
-  //         options: {
-  //           // infuraId: "c22c90a767684c5fbd7257da57802b35", // required
-  //           rpc: {
-  //             56: "https://bsc-dataseed.binance.org/",
-  //           },
-  //           network: "binance",
-  //           // chainId: 56,
-  //         },
-  //       },
-  //     };
-
-  //     const newWeb3Modal = new Web3Modal({
-  //       cacheProvider: true,
-  //       providerOptions,
-  //     });
-
-  //     setWeb3Modal(newWeb3Modal);
-  //   }, []);
-  //   async function connectWallet() {
-  //     const provider = await web3Modal?.connect();
-  //     setProvider(provider);
-  //     const library = new ethers.providers.Web3Provider(provider);
-  //     const accounts = await library.listAccounts();
-  //     setAccount(accounts[0]);
-  //     const network = await library.getNetwork();
-  //     setNetwork(network);
-  //   }
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum
@@ -167,11 +97,6 @@ export default function ConnectWallet() {
           Connect
         </div>
       )}
-      {/* <div>Account: {account}</div>
-      <div>Network: {network?.name}</div>
-      <div>
-        Balance: {balance || 0} {network?.name}
-      </div> */}
     </SConnectWallet>
   );
 }
